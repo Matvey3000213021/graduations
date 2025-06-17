@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+<script>
+let min = +prompt("Від якого числа?",10000);
+let max = +prompt("До якого?", 200000);
+
+let emojis = ["✨", "🔥", "🌟", "💥", "🌈", "⚡", "🎉", "🍀", "🌀", "🎇"]
+for (let count = min; count <= max; count++) {
+  let shuffledEmojis = [...emojis];
+
+  for (let i = shuffledEmojis.length - 1; i > 0; i--) {
+    let j = Math.floor(Math.random() * (i + 1));
+    [shuffledEmojis[i], shuffledEmojis[j]] = [shuffledEmojis[j], shuffledEmojis[i]];
+  }
+
+  let emojiCount = Math.floor(Math.random() * 5) + 1; // Від 1 до 2
+  let emojiLine = shuffledEmojis.slice(0, emojiCount).join("");
+
+  document.writeln(`<span>${emojiLine} ${count}</span><br>`);
+}
+</script>
+</body>
+</html>

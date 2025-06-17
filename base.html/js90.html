@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+Привіт мене звати Матвій мені 12 років я навчаюсь у 6-г класі день народження в мене 18 червня літом я хочу стати поваром або програмістом ще я люблю математику. <img src="https://lh3.googleusercontent.com/pw/AP1GczMrzy-RQNi67q60zg-XPLsRIHtHy--bAEAPFpN1e8FFaYwFATpSiNSU3zcdmmgSnDmmTzztZRWxRWRMTWOSTQZ1wDLoFjKNH5eKYWTsrfU2wP8d8psryidAr-s5hDuEf4P_RqS25V5owBxcQXV0Kccm=w661-h879-s-no-gm"width="300" /> 
+  <title>Випускна Робота з JavaScript (25 завдань)</title>
+</style>
+<body>
+<h1>Випускна Робота з JavaScript (25 завдань)</h1>
+
+  <label for="taskSelect">Оберіть завдання:</label>
+  <select id="taskSelect">
+    <option value="1">1. Площа та периметр трикутника і прямокутника</option>
+    <option value="2">2. Перший політ у космос</option>
+    <option value="3">3. Вгадати героя</option>5yUlR3
+    <option value="4">4. Перевірка логіну та пароля</option>
+    <option value="5">5. Банкомат</option>
+    <option value="6">6. Пропуск на сайт за віком</option>
+    <option value="7">7. Довідники (switch case)</option>
+    <option value="8">8. Оцінки</option>
+    <option value="9">9. Пори року</option>
+    <option value="10">10. Привітання "Слава Україні"</option>
+    <option value="11">11. Емоджі за кодом</option>
+    <option value="12">12. Сума чисел, які вводить користувач</option>
+    <option value="13">13. Степінь</option>
+    <option value="14">14. Факторіал</option> 
+    <option value="15">15. Числа Фібоначчі</option>
+    <option value="16">16. Таблиця множення</option>
+    <option value="17">17. Виведення символу у "сходинки"</option>
+    <option value="18">18. Вгадай число</option>
+    <option value="19">19. Числа в діапазоні</option>
+    <option value="20">20. Сума чисел в діапазоні</option>
+    <option value="21">21. 3 двозначні випадкові числа у діапазоні</option>
+    <option value="22">22. Перша буква велика</option>
+    <option value="23">23. Знайти "спам"</option>
+    <option value="24">24. Знаходження підрядка у рядку</option>
+    <option value="25">25. Аналіз цифр у числі</option>
+  </select>
+  <button onclick="runTask()">Виконати</button>
+
+  <h3>Результат:</h3>
+  <pre id="output"></pre>
+
+<script>
+function runTask() {
+  const task = parseInt(document.getElementById("taskSelect").value);
+  const out = document.getElementById("output");
+  let result = "";
+
+  switch(task) {
+    case 1: { 
+      // Площа і периметр трикутника і прямокутника
+      let a = 3, b = 4, c = 5;
+      let p = (a + b + c) / 2;
+      let s = Math.sqrt(p * (p - a) * (p - b) * (p - c));
+      let w = 5, h = 10;
+      result += `Трикутник:\n  Периметр = ${a + b + c}\n  Площа = ${s.toFixed(2)}\n\n`;
+      result += `Прямокутник:\n  Периметр = ${2 * (w + h)}\n  Площа = ${w * h}`;
+      break;
+    }
+    case 2:
+      result = "12 квітня 1961 року — перший політ людини у космос (Юрій Гагарін).";
+      break;
+    case 3: {
+      let hero = prompt("Введіть ім'я героя (наприклад, 'Залізна Людина'):");
+      if (hero && hero.trim().toLowerCase() === "залізна людина") result = "Вгадали героя!";
+      else result = "Не вгадали.";
+      break;
+    }
+    case 4: {
+      let login = prompt("Логін:");
+      let password = prompt("Пароль:");
+      if (login === "admin" && password === "1234") result = "Доступ дозволено.";
+      else result = "Невірний логін або пароль.";
+      break;
+    }
+    case 5: {
+      let balance = 1000;
+      let sum = parseFloat(prompt("Введіть суму для зняття:"));
+      if (isNaN(sum) || sum <= 0) result = "Некоректна сума.";
+      else if (sum > balance) result = "Недостатньо коштів.";
+      else {
+        balance -= sum;
+        result = `Виведено ${sum}. Залишок на рахунку: ${balance}.`;
+      }
+      break;
+    }
+    case 6: {
+      let age = parseInt(prompt("Введіть свій вік:"));
+      if (isNaN(age) || age < 0) result = "Некоректний вік.";
+      else if (age >= 18) result = "Доступ дозволено.";
+      else result = "Доступ заборонено.";
+      break;
+    }
+    case 7: {
+      let choice = prompt("Введіть цифру від 1 до 3 (1 - Кольори, 2 - Дні, 3 - Місяці):");
+      switch(choice) {
+        case "1":
+          result = "Кольори:\n1 - Червоний\n2 - Зелений\n3 - Синій";
+          break;
+        case "2":
+          result = "Дні тижня:\n1 - Понеділок\n2 - Вівторок\n3 - Середа";
+          break;
+        case "3":
+          result = "Місяці:\n1 - Січень\n2 - Лютий\n3 - Березень";
+          break;
+        default:
+          result = "Невірний вибір.";
+      }
+      break;
+    }
+    case 8: {
+      let grade = parseInt(prompt("Введіть оцінку (0-100):"));
+      if (isNaN(grade) || grade < 0 || grade > 100) result = "Некоректна оцінка.";
+      else if (grade >= 90) result = "Відмінно";
+      else if (grade >= 70) result = "Добре";
+      else if (grade >= 50) result = "Задовільно";
+      else result = "Погано";
+      break;
+    }
+    case 9: {
+      let month = parseInt(prompt("Введіть номер місяця (1-12):"));
+      if (isNaN(month) || month < 1 || month > 12) result = "Некоректний місяць.";
+      else if ([12,1,2].includes(month)) result = "Зима";
+      else if ([3,4,5].includes(month)) result = "Весна";
+      else if ([6,7,8].includes(month)) result = "Літо";
+      else result = "Осінь";
+      break;
+    }
+    case 10:
+      result = "Слава Україні!";
+      break;
+    case 11: {
+      let code = parseInt(prompt("Введіть код емоджі (наприклад, 128512):"));
+      if (isNaN(code)) result = "Некоректний код.";
+      else result = `Ваш емоджі: ${String.fromCodePoint(code)}`;
+      break;
+    }
+    case 12: {
+      let total = 0;
+      while (true) {
+        let num = prompt("Введіть число (натисніть '0' щоб завершити):");
+        if (num === "0") break;
+        let n = parseFloat(num);
+        if (!isNaN(n)) total += n;
+      }
+      result = `Сума введених чисел: ${total}`;
+      break;
+    }
+    case 13: {
+      let base = parseFloat(prompt("Введіть основу:"));
+      let exp = parseInt(prompt("Введіть степінь (ціле число):"));
+      if (isNaN(base) || isNaN(exp)) result = "Некоректні дані.";
+      else result = `${base} ^ ${exp} = ${base ** exp}`;
+      break;
+    }
+    case 14: {
+      let n = parseInt(prompt("Введіть число для обчислення факторіала:"));
+      if (isNaN(n) || n < 0) result = "Некоректне число.";
+      else {
+        let f = 1;
+        for(let i=2; i<=n; i++) f *= i;
+        result = `${n}! = ${f}`;
+      }
+      break;
+    }
+    case 15: {
+      let count = parseInt(prompt("Скільки чисел Фібоначчі вивести?"));
+      if (isNaN(count) || count <= 0) result = "Некоректна кількість.";
+      else {
+        let fib = [0,1];
+        for(let i=2; i<count; i++) fib[i] = fib[i-1] + fib[i-2];
+        result = fib.slice(0, count).join(", ");
+      }
+      break;
+    }
+    case 16: {
+      let num = parseInt(prompt("Введіть число для таблиці множення:"));
+      if (isNaN(num)) result = "Некоректне число.";
+      else {
+        for(let i=1; i<=10; i++) {
+          result += `${num} × ${i} = ${num*i}\n`;
+        }
+      }
+      break;
+    }
+    case 17: {
+      let sym = prompt("Введіть символ:");
+      if (!sym) result = "Потрібен символ.";
+      else {
+        for(let i=1; i<=5; i++) {
+          result += sym.repeat(i) + "\n";
+        }
+      }
+      break;
+    }
+    case 18: {
+      let secret = Math.floor(Math.random()*10) + 1;
+      let guess = parseInt(prompt("Вгадайте число від 1 до 10:"));
+      if (guess === secret) result = "Ви вгадали!";
+      else result = `Невірно. Правильне число: ${secret}`;
+      break;
+    }
+    case 19: {
+      let start = parseInt(prompt("Початок діапазону:"));
+      let end = parseInt(prompt("Кінець діапазону:"));
+      if (isNaN(start) || isNaN(end)) result = "Некоректні дані.";
+      else {
+        if (start > end) [start, end] = [end, start];
+        for(let i=start; i<=end; i++) {
+          result += i + " ";
+        }
+      }
+      break;
+    }
+    case 20: {
+      let start = parseInt(prompt("Початок діапазону:"));
+      let end = parseInt(prompt("Кінець діапазону:"));
+      if (isNaN(start) || isNaN(end)) result = "Некоректні дані.";
+      else {
+        if (start > end) [start, end] = [end, start];
+        let sum = 0;
+        for(let i=start; i<=end; i++) sum += i;
+        result = `Сума чисел від ${start} до ${end}: ${sum}`;
+      }
+      break;
+    }
+    case 21: {
+      // Два двозначні випадкові числа для діапазону
+      let min = Math.floor(Math.random() * 90) + 10;
+      let max = Math.floor(Math.random() * 90) + 10;
+      if (min > max) [min, max] = [max, min];
+      result += `Діапазон: ${min} - ${max}\nТри випадкові числа:\n`;
+      for(let i=0; i<3; i++) {
+        let rnd = Math.floor(Math.random() * (max - min + 1)) + min;
+        result += rnd + "\n";
+      }
+      break;
+    }
+    case 22: {
+      let txt = prompt("Введіть текст:");
+      if (!txt) result = "Потрібен текст.";
+      else result = txt.charAt(0).toUpperCase() + txt.slice(1);
+      break;
+    }
+    case 23: {
+      let msg = prompt("Введіть текст для перевірки на СПАМ:");
+      if (!msg) result = "Потрібен текст.";
+      else {
+        let lower = msg.toLowerCase();
+        result = (lower.includes("спам") || lower.includes("spam")) ? "СПАМ знайдено!" : "СПАМ відсутній.";
+      }
+      break;
+    }
+    case 24: {
+      let text = prompt("Введіть текст:");
+      let substr = prompt("Введіть підрядок для пошуку:");
+      if (!text || !substr) result = "Потрібен текст і підрядок.";
+      else {
+        result = text.includes(substr) ? "Підрядок знайдено." : "Підрядок не знайдено.";
+      }
+      break;
+    }
+    case 25: {
+      let num = prompt("Введіть число:");
+      if (!num || !/^\d+$/.test(num)) {
+        result = "Потрібно ввести ціле число.";
+      } else {
+        let evenCount = 0;
+        let oddCount = 0;
+        let sum = 0;
+        for(let ch of num) {
+          let digit = parseInt(ch);
+          sum += digit;
+          if (digit % 2 === 0) evenCount++;
+          else oddCount++;
+        }
+        result = `Цифр у числі: ${num.length}\nПарних цифр: ${evenCount}\nНепарних цифр: ${oddCount}\nСума цифр: ${sum}`;
+      }
+      break;
+    }
+    default:
+      result = "Невідоме завдання.";
+  }
+
+  out.textContent = result;
+}
+</script>
+</body>
+</html>

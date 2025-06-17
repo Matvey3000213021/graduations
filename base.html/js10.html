@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Порівняння чисел</h1>
+    <p id="result1"></p>
+    <p id="result2"></p>
+    <p id="result3"></p>
+
+<script>
+    function maxValue(a, b) {
+            if (a > b) {
+                return a;
+            } else {
+                return b;
+            }
+        }
+
+        document.getElementById("result1").innerText = "Максимум з 10 і 5: " + maxValue(10, 5);
+        document.getElementById("result2").innerText = "Максимум з 3 і 7: " + maxValue(3, 7);
+        document.getElementById("result3").innerText = "Максимум з 4 і 4: " + maxValue(4, 4);
+     
+ </script> 
+</body>
+</html>

@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Випускна робота з JS — Галактичний проєкт</title>
+<style>
+  /* --- Галактичний фон --- */
+  body, html {
+    margin: 0; padding: 0; height: 100%;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: radial-gradient(ellipse at center, #0b0033 0%, #000000 100%);
+    overflow-x: hidden;
+    color: #e0e0ff;
+  }
+
+  .stars {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: transparent url('https://i.ibb.co/7bQDLxG/stars.png') repeat;
+    animation: starMove 100s linear infinite;
+    z-index: 0;
+  }
+  @keyframes starMove {
+    from {background-position: 0 0;}
+    to {background-position: 10000px 5000px;}
+  }
+
+  .container {
+    position: relative;
+    z-index: 1;
+    max-width: 900px;
+    margin: 40px auto 80px auto;
+    padding: 20px;
+    background: rgba(10, 10, 30, 0.75);
+    border-radius: 15px;
+    box-shadow: 0 0 30px #4466ff88;
+  }
+
+  h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-weight: 700;
+    font-size: 2.4rem;
+    color: #88aaff;
+    text-shadow: 0 0 10px #88aaff99;
+  }
+
+  /* --- Селектор завдань --- */
+  select {
+    width: 100%;
+    padding: 10px 15px;
+    font-size: 1.1rem;
+    border-radius: 8px;
+    border: none;
+    background: #202050;
+    color: #ccddee;
+    box-shadow: 0 0 10px #3366ff88;
+    transition: all 0.3s ease;
+    margin-bottom: 20px;
+  }
+  select:hover, select:focus {
+    background: #3366ff33;
+    color: white;
+    outline: none;
+    box-shadow: 0 0 15px #6699ffcc;
+  }
+
+  /* --- Кнопки --- */
+  button {
+    cursor: pointer;
+    background: linear-gradient(135deg, #5566ff, #2244cc);
+    border: none;
+    padding: 12px 25px;
+    font-size: 1.1rem;
+    border-radius: 10px;
+    color: #ddeeff;
+    margin-right: 10px;
+    box-shadow: 0 0 15px #3355ffaa;
+    transition: background 0.3s ease, transform 0.2s ease;
+    user-select: none;
+  }
+  button:hover {
+    background: linear-gradient(135deg, #7799ff, #4466ee);
+    transform: scale(1.05);
+    box-shadow: 0 0 25px #5588ffaa;
+  }
+  button:active {
+    transform: scale(0.95);
+  }
+
+  /* --- Зона результату --- */
+  #result {
+    margin-top: 25px;
+    background: #151a40cc;
+    padding: 20px;
+    border-radius: 12px;
+    min-height: 150px;
+    font-size: 1.1rem;
+    line-height: 1.5;
+    box-shadow: inset 0 0 15px #2244cc99;
+    color: #ddeeff;
+    white-space: pre-wrap;
+    opacity: 0;
+    animation: fadeIn 1s forwards;
+  }
+  #result.show {
+    opacity: 1;
+  }
+  @keyframes fadeIn {
+    to {opacity: 1;}
+  }
+
+  /* --- Плавне з'явлення контейнера --- */
+  .animated-container {
+    animation: fadeSlideDown 0.8s ease forwards;
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  .animated-container.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  @keyframes fadeSlideDown {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* --- Футер --- */
+  footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+    padding: 10px 0;
+    background: #0b0022cc;
+    color: #aabbffcc;
+    font-size: 0.9rem;
+    font-style: italic;
+    box-shadow: 0 -2px 10px #2244cc88;
+    z-index: 10;
+  }
+
+</style>
+</head>
+<body>
+<div class="stars"></div>
+
+<div class="container animated-container visible">
+  <h1>Випускна робота з JavaScript — Галактичний проєкт</h1>
+
+  <select id="taskSelect" aria-label="Вибір завдання">
+    <option value="" disabled selected>Оберіть завдання (1-31)</option>
+    <option value="1">1. Площа та периметр трикутника та прямокутника</option>
+    <option value="2">2. Перший політ у космос</option>
+    <option value="3">3. Вгадати героя</option>
+    <option value="4">4. Перевірка логіну та пароля</option>
+    <option value="5">5. Банкомат</option>
+    <option value="6">6. Пропуск на сайт за віком</option>
+    <option value="7">7. Довідники за допомогою switch case</option>
+    <option value="8">8. Оцінки</option>
+    <option value="9">9. Пори року</option>
+    <option value="10">10. Привітання "Слава Україні"</option>
+    <option value="11">11. Емоджі з кодом</option>
+    <option value="12">12. Сума чисел, які вводить користувач</option>
+    <option value="13">13. Степінь</option>
+    <option value="14">14. Факторіал</option>
+    <option value="15">15. Числа Фібоначчі</option>
+    <option value="16">16. Таблиця множення</option>
+    <option value="17">17. Виведення символу у сходинки (трикутник)</option>
+    <option value="18">18. Вгадай число</option>
+    <option value="19">19. Числа в діапазоні</option>
+    <option value="20">20. Сума чисел в діапазоні</option>
+    <option value="21">21. 3 двозначні випадкові числа у діапазоні</option>
+    <option value="22">22. Робимо першу букву великою</option>
+    <option value="23">23. Знайти спам</option>
+    <option value="24">24. Знаходження підрядка у рядку</option>
+    <option value="25">25. Аналіз цифр у числі</option>
+    <option value="26">26. Компліменти</option>
+    <option value="27">27. Номер букви в алфавіті</option>
+    <option value="28">28. Зарплати</option>
+    <option value="29">29. Країни та населення</option>
+    <option value="30">30. Генерація фігур</option>
+    <option value="31">31. Шахівниця</option>
+  </select>
+
+  <div>
+    <button id="runBtn">Запустити завдання</button>
+    <button id="demoBtn">Демонстраційний режим</button>
+  </div>
+
+  <pre id="result" aria-live="polite"></pre>
+</div>
+
+<footer>
+  Автор: Твоє Ім’я — Випускна робота 2025
+</footer>
+
+<script>
+  const taskSelect = document.getElementById('taskSelect');
+  const runBtn = document.getElementById('runBtn');
+  const demoBtn = document.getElementById('demoBtn');
+  const resultEl = document.getElementById('result');
+
+  // Utility функції для вводу
+  function promptNumber(message, defaultValue = '') {
+    let res = prompt(message, defaultValue);
+    if (res === null) return null;
+    let num = Number(res);
+    if (isNaN(num)) {
+      alert('Будь ласка, введіть коректне число');
+      return null;
+    }
+    return num;
+  }
+  function promptText(message, defaultValue = '') {
+    let res = prompt(message, defaultValue);
+    if (res === null) return null;
+    return res.trim();
+  }
+
+  // Завдання 1: площа і периметр трикутника та прямокутника
+  function task1() {
+    let result = '';
+
+    // Трикутник (по сторонам)
+    let a = promptNumber("Введіть довжину сторони a трикутника:");
+    if (a === null) return 'Відмінено';
+    let b = promptNumber("Введіть довжину сторони b трикутника:");
+    if (b === null) return 'Відмінено';
+    let c = promptNumber("Введіть довжину сторони c трикутника:");
+    if (c === null) return 'Відмінено';
+
+    // Периметр трикутника
+    let perimeterTriangle = a + b + c;
+    // Площа за формулою Герона
+    let s = perimeterTriangle / 2;
+    let areaTriangle = Math.sqrt(s * (s - a) * (s - b) * (s - c));
+
+    result += `Трикутник:\nПериметр: ${perimeterTriangle.toFixed(2)}\nПлоща: ${areaTriangle.toFixed(2)}\n\n`;
+
+    // Прямокутник
+    let width = promptNumber("Введіть ширину прямокутника:");
+    if (width === null) return result + 'Відмінено';
+    let height = promptNumber("Введіть висоту прямокутника:");
+    if (height === null) return result + 'Відмінено';
+
+    let perimeterRect = 2 * (width + height);
+    let areaRect = width * height;
+
+    result += `Прямокутник:\nПериметр: ${perimeterRect.toFixed(2)}\nПлоща: ${areaRect.toFixed(2)}`;
+
+    return result;
+  }
+
+  // Завдання 2: перший політ у космос
+  function task2() {
+    return `Перший політ у космос:\nЮрій Гагарін став першим людиною в космосі 12 квітня 1961 року.\n\n"Поїхали!" — його знамените слово.`;
+  }
+
+  // Завдання 3: вгадати героя
+  function task3() {
+    const heroes = ['Гаррі Поттер', 'Бетмен', 'Супермен', 'Жінка-кішка', 'Тор', 'Залізна людина'];
+    const hero = heroes[Math.floor(Math.random() * heroes.length)];
+    let guess = prompt('Вгадай героя: Гаррі Поттер, Бетмен, Супермен, Жінка-кішка, Тор, Залізна людина');
+    if (guess === null) return 'Відмінено';
+    if (guess.toLowerCase() === hero.toLowerCase()) return `Вітаємо! Ви вгадали: ${hero}`;
+    else return `Нажаль, це не ${guess}. Правильна відповідь: ${hero}`;
+  }
+
+  // Завдання 4: перевірка логіну та пароля
+  function task4() {
+    const correctLogin = 'user';
+    const correctPass = '1234';
+    let login = prompt('Введіть логін:');
+    if (login === null) return 'Відмінено';
+    let pass = prompt('Введіть пароль:');
+    if (pass === null) return 'Відмінено';
+    if (login === correctLogin && pass === correctPass) return 'Авторизація успішна!';
+    else return 'Невірний логін або пароль.';
+  }
+
+  // Завдання 5: банкомат
+  function task5() {
+    let balance = 1000;
+    let amount = promptNumber('Введіть суму для зняття:');
+    if (amount === null) return 'Відмінено';
+    if (amount > balance) return 'Недостатньо коштів на рахунку.';
+    balance -= amount;
+    return `Знято ${amount} грн. Баланс: ${balance} грн.`;
+  }
+
+  // Завдання 6: пропуск на сайт за віком
+  function task6() {
+    let age = promptNumber('Введіть свій вік:');
+    if (age === null) return 'Відмінено';
+    if (age >= 18) return 'Вхід дозволено. Ласкаво просимо!';
+    else return 'Вхід заборонено. Ви надто молоді.';
+  }
+
+  // Завдання 7: довідники за допомогою switch case
+  function task7() {
+    let dayNum = promptNumber('Введіть номер дня тижня (1-7):');
+    if (dayNum === null) return 'Відмінено';
+    let dayName;
+    switch(dayNum) {
+      case 1: dayName = 'Понеділок'; break;
+      case 2: dayName = 'Вівторок'; break;
+      case 3: dayName = 'Середа'; break;
+      case 4: dayName = 'Четвер'; break;
+      case 5: dayName = 'П\'ятниця'; break;
+      case 6: dayName = 'Субота'; break;
+      case 7: dayName = 'Неділя'; break;
+      default: dayName = 'Невірний номер дня';
+    }
+    return `День тижня: ${dayName}`;
+  }
+
+  // Завдання 8: оцінки
+  function task8() {
+    let grade = promptNumber('Введіть оцінку (1-12):');
+    if (grade === null) return 'Відмінено';
+    if (grade >= 1 && grade <= 4) return 'Оцінка: Незадовільно';
+    else if (grade <= 6) return 'Оцінка: Задовільно';
+    else if (grade <= 8) return 'Оцінка: Добре';
+    else if (grade <= 10) return 'Оцінка: Дуже добре';
+    else if (grade <= 12) return 'Оцінка: Відмінно';
+    else return 'Невірна оцінка';
+  }
+
+  // Завдання 9: пори року
+  function task9() {
+    let month = promptNumber('Введіть номер місяця (1-12):');
+    if (month === null) return 'Відмінено';
+    if ([12,1,2].includes(month)) return 'Зима';
+    else if ([3,4,5].includes(month)) return 'Весна';
+    else if ([6,7,8].includes(month)) return 'Літо';
+    else if ([9,10,11].includes(month)) return 'Осінь';
+    else return 'Невірний місяць';
+  }
+
+  // Завдання 10: привітання "Слава Україні"
+  function task10() {
+    return 'Слава Україні! Героям слава!';
+  }
+
+  // Завдання 11: емоджі з кодом
+  function task11() {
+    let code = prompt('Введіть код емоджі (наприклад, 128512):');
+    if (code === null) return 'Відмінено';
+    let numCode = Number(code);
+    if (isNaN(numCode)) return 'Невірний код емоджі';
+    return `Ваш емоджі: ${String.fromCodePoint(numCode)}`;
+  }
+
+  // Завдання 12: сума чисел, які вводить користувач
+  function task12() {
+    let sum = 0;
+    while(true) {
+      let val = prompt('Введіть число для додавання (порожнє для зупинки):');
+      if (val === null || val.trim() === '') break;
+      let num = Number(val);
+      if (isNaN(num)) {
+        alert('Введіть число!');
+        continue;
+      }
+      sum += num;
+    }
+    return `Сума введених чисел: ${sum}`;
+  }
+
+  // Завдання 13: степінь
+  function task13() {
+    let base = promptNumber('Введіть основу степеня:');
+    if (base === null) return 'Відмінено';
+    let exp = promptNumber('Введіть показник степеня:');
+    if (exp === null) return 'Відмінено';
+    let res = Math.pow(base, exp);
+    return `${base}^${exp} = ${res}`;
+  }
+
+  // Завдання 14: факторіал
+  function task14() {
+    let n = promptNumber('Введіть число для обчислення факторіалу (0-20):');
+    if (n === null) return 'Відмінено';
+    if (n < 0 || n > 20 || !Number.isInteger(n)) return 'Невірне число';
+    let f = 1;
+    for(let i = 2; i <= n; i++) f *= i;
+    return `${n}! = ${f}`;
+  }
+
+  // Завдання 15: числа Фібоначчі
+  function task15() {
+    let n = promptNumber('Введіть кількість чисел Фібоначчі (позитивне ціле):');
+    if (n === null) return 'Відмінено';
+    if (n <= 0 || !Number.isInteger(n)) return 'Невірне число';
+    let fib = [0, 1];
+    for(let i = 2; i < n; i++) fib[i] = fib[i-1] + fib[i-2];
+    return `Перші ${n} чисел Фібоначчі:\n${fib.slice(0,n).join(', ')}`;
+  }
+
+  // Завдання 16: таблиця множення
+  function task16() {
+    let n = promptNumber('Введіть число для таблиці множення:');
+    if (n === null) return 'Відмінено';
+    let res = '';
+    for(let i=1; i<=10; i++) {
+      res += `${n} × ${i} = ${n*i}\n`;
+    }
+    return res;
+  }
+
+  // Завдання 17: трикутник зі символів
+  function task17() {
+    let symb = prompt('Введіть символ для трикутника:');
+    if (symb === null || symb.length === 0) return 'Відмінено';
+    let lines = promptNumber('Введіть кількість рядків:');
+    if (lines === null) return 'Відмінено';
+    if (lines <= 0 || !Number.isInteger(lines)) return 'Невірне число';
+    let res = '';
+    for(let i=1; i<=lines; i++) {
+      res += symb.repeat(i) + '\n';
+    }
+    return res;
+  }
+
+  // Завдання 18: вгадай число
+  function task18() {
+    const secret = Math.floor(Math.random() * 100) + 1;
+    let tries = 0;
+    while(true) {
+      let guess = prompt('Вгадайте число від 1 до 100:');
+      if (guess === null) return 'Відмінено';
+      let g = Number(guess);
+      if (isNaN(g)) {
+        alert('Введіть число!');
+        continue;
+      }
+      tries++;
+      if (g === secret) return `Вітаємо! Ви вгадали за ${tries} спроб(у).`;
+      else if (g < secret) alert('Більше!');
+      else alert('Менше!');
+    }
+  }
+
+  // Завдання 19: числа в діапазоні
+  function task19() {
+    let start = promptNumber('Введіть початок діапазону:');
+    if (start === null) return 'Відмінено';
+    let end = promptNumber('Введіть кінець діапазону:');
+    if (end === null) return 'Відмінено';
+    if (start > end) [start, end] = [end, start];
+    let res = '';
+    for(let i = start; i <= end; i++) {
+      res += i + ' ';
+    }
+    return `Числа в діапазоні:\n${res.trim()}`;
+  }
+
+  // Завдання 20: сума чисел в діапазоні
+  function task20() {
+    let start = promptNumber('Введіть початок діапазону:');
+    if (start === null) return 'Відмінено';
+    let end = promptNumber('Введіть кінець діапазону:');
+    if (end === null) return 'Відмінено';
+    if (start > end) [start, end] = [end, start];
+    let sum = 0;
+    for(let i = start; i <= end; i++) sum += i;
+    return `Сума чисел в діапазоні від ${start} до ${end} = ${sum}`;
+  }
+
+  // Завдання 21: 3 двозначні випадкові числа у діапазоні
+  function task21() {
+    function getRandom(min, max) {
+      return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+    let nums = [];
+    for(let i=0; i<3; i++) {
+      nums.push(getRandom(10, 99));
+    }
+    return `Три двозначні випадкові числа:\n${nums.join(', ')}`;
+  }
+
+  // Завдання 22: робимо першу букву великою
+  function task22() {
+    let text = prompt('Введіть текст:');
+    if (text === null) return 'Відмінено';
+    if (text.length === 0) return 'Порожній рядок';
+    let res = text[0].toUpperCase() + text.slice(1);
+    return `Результат: ${res}`;
+  }
+
+  // Завдання 23: знайти спам
+  function task23() {
+    let text = prompt('Введіть текст для перевірки на спам:');
+    if (text === null) return 'Відмінено';
+    let lower = text.toLowerCase();
+    if (lower.includes('viagra') || lower.includes('xxx')) return 'Спам виявлено!';
+    else return 'Спам не знайдено.';
+  }
+
+  // Завдання 24: знаходження підрядка у рядку
+  function task24() {
+    let text = prompt('Введіть текст:');
+    if (text === null) return 'Відмінено';
+    let substr = prompt('Введіть підрядок для пошуку:');
+    if (substr === null) return 'Відмінено';
+    let pos = text.indexOf(substr);
+    if (pos === -1) return `Підрядок "${substr}" не знайдено.`;
+    else return `Підрядок "${substr}" знайдено на позиції ${pos}.`;
+  }
+
+  // Завдання 25: аналіз цифр у числі
+  function task25() {
+    let numStr = prompt('Введіть число:');
+    if (numStr === null) return 'Відмінено';
+    let digits = numStr.replace(/\D/g, '');
+    if (digits.length === 0) return 'Цифр немає.';
+    let sum = 0;
+    let count = digits.length;
+    for (let d of digits) sum += Number(d);
+    return `Цифр: ${count}\nСума цифр: ${sum}`;
+  }
+
+  // Завдання 26: компліменти
+  function task26() {
+    const compliments = [
+      "Ти сьогодні чудово виглядаєш!",
+      "У тебе прекрасна усмішка!",
+      "Твоя праця надзвичайно цінна!",
+      "Ти надихаєш інших своїм прикладом!",
+      "Твій розум — це твоє багатство!"
+    ];
+    let index = Math.floor(Math.random() * compliments.length);
+    return compliments[index];
+  }
+
+  // Завдання 27: номер букви в алфавіті
+  function task27() {
+    let letter = prompt('Введіть одну букву (укр.):');
+    if (letter === null) return 'Відмінено';
+    if (letter.length !== 1) return 'Введіть лише одну букву.';
+    const alphabet = 'абвгґдеєжзиіїйклмнопрстуфхцчшщьюя';
+    let pos = alphabet.indexOf(letter.toLowerCase());
+    if (pos === -1) return 'Буква не знайдена в алфавіті.';
+    return `Номер букви "${letter}": ${pos + 1}`;
+  }
+
+  // Завдання 28: зарплати
+  function task28() {
+    let empCount = promptNumber('Введіть кількість працівників:');
+    if (empCount === null) return 'Відмінено';
+    if (empCount <= 0 || !Number.isInteger(empCount)) return 'Невірне число';
+    let salaries = [];
+    for(let i=0; i<empCount; i++) {
+      let sal = promptNumber(`Введіть зарплату працівника №${i+1}:`);
+      if (sal === null) return 'Відмінено';
+      salaries.push(sal);
+    }
+    let total = salaries.reduce((a,b) => a+b, 0);
+    let avg = total / empCount;
+    return `Загальна зарплата: ${total}\nСередня зарплата: ${avg.toFixed(2)}`;
+  }
+
+  // Завдання 29: країни та населення
+  function task29() {
+    const countries = {
+      "Україна": 41000000,
+      "Польща": 38000000,
+      "Німеччина": 83000000,
+      "Франція": 67000000,
+      "Італія": 60000000
+    };
+    let res = 'Країни та населення:\n';
+    for (let country in countries) {
+      res += `${country}: ${countries[country].toLocaleString()} осіб\n`;
+    }
+    return res;
+  }
+
+  // Завдання 30: генерація фігур
+  function task30() {
+    let figure = prompt('Оберіть фігуру (трикутник, квадрат, прямокутник):');
+    if (figure === null) return 'Відмінено';
+    figure = figure.toLowerCase();
+    if (figure === 'трикутник') {
+      let lines = promptNumber('Введіть кількість рядків для трикутника:');
+      if (lines === null) return 'Відмінено';
+      let res = '';
+      for(let i=1; i<=lines; i++) {
+        res += '*'.repeat(i) + '\n';
+      }
+      return res;
+    } else if (figure === 'квадрат') {
+      let size = promptNumber('Введіть розмір квадрата:');
+      if (size === null) return 'Відмінено';
+      let res = '';
+      for(let i=0; i<size; i++) {
+        res += '* '.repeat(size) + '\n';
+      }
+      return res;
+    } else if (figure === 'прямокутник') {
+      let width = promptNumber('Введіть ширину прямокутника:');
+      if (width === null) return 'Відмінено';
+      let height = promptNumber('Введіть висоту прямокутника:');
+      if (height === null) return 'Відмінено';
+      let res = '';
+      for(let i=0; i<height; i++) {
+        res += '* '.repeat(width) + '\n';
+      }
+      return res;
+    } else {
+      return 'Невідома фігура.';
+    }
+  }
+
+  // Завдання 31: шахівниця 8x8
+  function task31() {
+    let res = '';
+    for(let row=0; row<8; row++) {
+      for(let col=0; col<8; col++) {
+        res += ((row + col) % 2 === 0) ? '◼︎' : '◻︎';
+      }
+      res += '\n';
+    }
+    return res;
+  }
+
+  // Допоміжна функція для числових вводів з перевіркою
+  function promptNumber(message) {
+    while(true) {
+      let input = prompt(message);
+      if (input === null) return null;
+      let num = Number(input);
+      if (!isNaN(num)) return num;
+      alert('Введіть, будь ласка, коректне число.');
+    }
+  }
+</script>
+
+</body>
+</html>
